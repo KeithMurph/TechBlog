@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/KeithMurph/TechBlog#readme",
   "dependencies": {
-    "petfinder": "^0.1.1"
+    "express": "^4.17.1",
+    "path": "^0.12.7",
+    "petfinder": "^0.1.1",
+    "sequelize": "^6.6.5"
   }
 }
