@@ -1,25 +1,50 @@
-const sequelize = require('../config/connection');
-const { User, posts } = require('../models');
+const db =require("../models")
 
-const userData = require('./userData.json');
-const postsData = require('./postsData.json');
+const sequelize = require("../config/connection")
 
-const seedDatabase = async () => {
-  await sequelize.sync({ force: true });
+const seedMe= async ()=>{
+    await sequelize.sync({force:true});
+    await db.User.bulkCreate([
+        {
+            username:"Keith",
+            email:"keith@keith.com",
+            password:"password"
+        },
+     
+    ],{
+        individualHooks:true
+    })
+    await db.Post.bulkCreate([
+        {
+          
+            title: "Steam Deck",
+            body: "PC2 is finally here and it's portable! Imagine your Nintendo Switch with a Library of games you already own, mod support and it's 8K capable",
+            releaseDate: "Holiday 2021",
+          
+           
+            UserId:1
+        },
+        {
+          
+            title: "The Telephone",
+            description: "The future is here! A newfangled instument to trasmit speech of long distances is known as the telephone is here but not to stay.",
+            "Elon Musk's newest pipe dream: Donations needed": 10000000,
 
-  const users = await User.bulkCreate(userData, {
-    individualHooks: true,
-    returning: true,
-  });
+            UserId:1
+          },
+          {
+            name: "LimeScoots",
+            body: "What's better than a world of scooters? A new generation thriled with the rideshare scooter service LimeScoots has left drunken college students bruised and cooler than ever",
+            certification:"Certified cool",
+            UserId:1
+            
+          }
+      
+       
+    ])
 
-  for (const posts of postsData) {
-    await posts.create({
-      ...post,
-      user_id: users[Math.floor(Math.random() * users.length)].id,
-    });
-  }
 
-  process.exit(0);
-};
+   
+}
 
-seedDatabase();
+seedMe()

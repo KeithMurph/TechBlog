@@ -1,61 +1,150 @@
-const router = require('express').Router();
-const { User } = require('../../models');
+const express = require('express');
+const router = express.Router();
+const db = require('../../models');
+const bcrypt = require("bcrypt");
 
-router.post('/', async (req, res) => {
-  try {
-    const userData = await User.create(req.body);
+router.get('/',(req,res)=>{
+    db.User.findAll({
+        include:[
+            {
+                model:db.Post,
+                include:[{
+                    model:db.Comment,
+                    include:[db.User]
+                }]
+            }
+        ]
+    }).then(userData=>{
+        res.json(userData)
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            message:"Uh oh!",
+            error:err
+        })
+    })
+})
 
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
+router.post("/",(req,res)=>{
+    db.User.create({
+        email:req.body.email,
+        username:req.body.username,
+        password:req.body.password
+    }).then(userData=>{
+        req.session.user = {
+            id:userData.id,
+            username:userData.username,
+            email:userData.email
+        }
+        res.json(userData)
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            message:"Uh oh!",
+            error:err
+        })
+    })
+})
 
-      res.status(200).json(userData);
-    });
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
+router.post("/login",(req,res)=>{
+    db.User.findOne({
+        where:{
+            email:req.body.email,
+        }
+    }).then(userData=>{
+        if(!userData){
+            res.status(403).json({
+                message:"Invalid username or password"
+            })
+        } else {
+            if(bcrypt.compareSync(req.body.password,userData.password)){
+                req.session.user = {
+                    id:userData.id,
+                    username:userData.username,
+                    email:userData.email
+                }
+                res.json(userData)
+            } else {
+                res.status(403).json({
+                    message:"Invalid username or password"
+                })
+            }
+        }
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            message:"Uh oh!",
+            error:err
+        })
+    })
+})
 
-router.post('/login', async (req, res) => {
-  try {
-    const userData = await User.findOne({ where: { email: req.body.email } });
-
-    if (!userData) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect email or password, please try again' });
-      return;
+router.post("/follow",(req,res)=>{
+    if(!req.session?.user?.id){
+        res.status(401).json({
+            message:"login first you knuckelhead!"
+        })
+    } else {
+        db.User.findByPk(req.session.user.id).then(yourData=>{
+            yourData.addFollow(req.body.follow).then(done=>{
+                res.json({
+                    message:"followed!"
+                })
+            })
+        })
     }
-
-    const validPassword = await userData.checkPassword(req.body.password);
-
-    if (!validPassword) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect email or password, please try again' });
-      return;
+})
+router.post("/unfollow",(req,res)=>{
+    if(!req.session?.user?.id){
+        res.status(401).json({
+            message:"login first you knuckelhead!"
+        })
+    } else {
+        db.User.findByPk(req.session.user.id).then(yourData=>{
+            yourData.removeFollow(req.body.unfollow).then(done=>{
+                res.json({
+                    message:"unfollowed!"
+                })
+            })
+        })
     }
+})
 
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
-      
-      res.json({ user: userData, message: 'You are now logged in!' });
-    });
+router.get("/session",(req,res)=>{
+    res.json({
+        sessionData:req.session
+    })
+})
 
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
-
-router.post('/logout', (req, res) => {
-  if (req.session.logged_in) {
-    req.session.destroy(() => {
-      res.status(204).end();
-    });
-  } else {
-    res.status(404).end();
-  }
-});
+router.get('/:id',(req,res)=>{
+    db.User.findByPk(req.params.id,{
+        include:[
+            {
+                model:db.Post,
+                include:[{
+                    model:db.Comment,
+                    include:[db.User]
+                }]
+            },
+           db.Comment,
+           {
+               model:db.User,
+               as:"Followers"
+           },
+           {
+            model:db.User,
+            as:"Follows"
+        }
+        ]
+    }).then(userData=>{
+        res.json(userData)
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            message:"Uh oh!",
+            error:err
+        })
+    })
+})
 
 module.exports = router;

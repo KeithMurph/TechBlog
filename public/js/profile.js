@@ -1,47 +1,37 @@
-const newFormHandler = async (event) => {
-    event.preventDefault();
-  
-    const name = document.querySelector('#posts-name').value.trim();
-    const needed_funding = document.querySelector('#posts-funding').value.trim();
-    const description = document.querySelector('#posts-desc').value.trim();
-  
-    if (name && needed_funding && description) {
-      const response = await fetch(`/api/posts`, {
-        method: 'POST',
-        body: JSON.stringify({ name, needed_funding, description }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (response.ok) {
-        document.location.replace('/profile');
-      } else {
-        alert('Failed to create post');
-      }
+const newPostForm = document.querySelector("#newPostForm");
+
+newPostForm?.addEventListener("submit",e=>{
+    e.preventDefault();
+    const postObj ={
+        body: document.querySelector("#newPostBody").value
     }
-  };
-  
-  const delButtonHandler = async (event) => {
-    if (event.target.hasAttribute('data-id')) {
-      const id = event.target.getAttribute('data-id');
-  
-      const response = await fetch(`/api/posts/${id}`, {
-        method: 'DELETE',
-      });
-  
-      if (response.ok) {
-        document.location.replace('/profile');
-      } else {
-        alert('Failed to delete post');
-      }
+    fetch("/api/posts",{
+        method:"POST",
+        body:JSON.stringify(postObj),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    }).then(res=>{
+        if(res.ok){
+            location.reload();
+        } else {
+            alert("oh no!!!!")
+
+        }
+    })
+})
+
+document.addEventListener("click",e=>{
+    if(e.target.matches(".delPostBtn")){
+        const idToDel = e.target.getAttribute("data-id");
+        fetch(`/api/posts/${idToDel}`,{
+            method:"DELETE"
+        }).then(res=>{
+            if(res.ok) {
+                location.reload();
+            } else {
+                alert("womp womp")
+            }
+        })
     }
-  };
-  
-  document
-    .querySelector('.new-posts-form')
-    .addEventListener('submit', newFormHandler);
-  
-  document
-    .querySelector('.posts-list')
-    .addEventListener('click', delButtonHandler);
+})
