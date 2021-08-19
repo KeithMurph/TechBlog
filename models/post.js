@@ -24,5 +24,6 @@ Post.init({
 },{
     sequelize
 })
+// fixed post model
 
 module.exports = Post
