@@ -8,6 +8,7 @@ router.get("/",(req,res)=>{
             model:db.Comment,
             include:[db.User]
         }]
+     
     }).then(posts=>{
         const hbsPosts = posts.map(post=>{
            let result =  post.get({plain:true})
@@ -29,6 +30,7 @@ router.get("/profile/:id",(req,res)=>{
                 model:db.Comment,
                 include:[db.User]
             }]
+            
         }]
     }).then( async user=>{
         const formatted = user.get({plain:true})
@@ -44,7 +46,7 @@ router.get("/profile/:id",(req,res)=>{
            Posts:postsWithDates,
            loggedInUser:req.session.user,
            isMyPage:req.params.id == req.session.user?.id,
-           isFollowing: await user.hasFollower(req.session.user?.id)
+     
        }
 
        console.log(hbsUser);

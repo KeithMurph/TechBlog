@@ -10,11 +10,12 @@ router.get("/",(req,res)=>{
     }).catch(err=>{
         console.log(err)
         res.status(500).json({
-            message:"Oh no!",
+            message:"error!",
             error:err
         })
     })
 })
+
 router.get("/comments",(req,res)=>{
     db.Post.findAll({
         include:[db.User,{
@@ -32,20 +33,25 @@ router.get("/comments",(req,res)=>{
     })
 })
 
+
 router.post("/",(req,res)=>{
     if(!req.session?.user?.id){
-        res.status(401).json({message:"login first jabroni"})
+        res.status(401).json({message:"login!"})
     } else {
 
         db.Post.create({
-            body:req.body.body,
+           title:req.body.title,
+         body:req.body.body,
+        
+         
+
             UserId:req.session.user.id
         }).then(postData=>{
             res.json(postData);
         }).catch(err=>{
             console.log(err)
             res.status(500).json({
-                message:"Oh no!",
+                message:"error",
                 error:err
             })
         })
@@ -63,7 +69,7 @@ router.get("/:id",(req,res)=>{
     }).catch(err=>{
         console.log(err)
         res.status(500).json({
-            message:"Oh no!",
+            message:"error",
             error:err
         })
     })
@@ -71,7 +77,7 @@ router.get("/:id",(req,res)=>{
 
 router.delete("/:id",(req,res)=>{
     if(!req.session?.user?.id){
-        res.status(401).json({message:"login first jabroni"})
+        res.status(401).json({message:"login!"})
     } else {
        db.Post.destroy({
            where:{
@@ -81,15 +87,15 @@ router.delete("/:id",(req,res)=>{
        }).then(delPost=>{
            if(delPost){
                res.json({
-                   message:"succesful delete!"
+                   message:"Deleted"
                });
             } else {
-                res.status(400).json({message:"no post deleted, it either doesnt exist or you didnt create it"})
+                res.status(400).json({message:"error"})
             }
        }).catch(err=>{
         console.log(err)
         res.status(500).json({
-            message:"Oh no!",
+            message:"error",
             error:err
         })
     })

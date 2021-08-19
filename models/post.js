@@ -6,20 +6,17 @@ class Post extends Model {};
 Post.init({
     title:{
         type:DataTypes.STRING,
-        allowNull:false
+        
 
     },
-    
     body:{
         type:DataTypes.STRING,
-        allowNull:false
+        
     },
     releaseDate:{
         type:DataTypes.STRING,
     },
-    cerification:{
-        type:DataTypes.STRING,
-    }
+ 
     
 
 

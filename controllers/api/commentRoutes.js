@@ -13,7 +13,7 @@ router.get("/",(req,res)=>{
     }).catch(err=>{
         console.log(err)
         res.status(500).json({
-            message:"Oh no!",
+            message:"error",
             error:err
         })
     })
@@ -22,7 +22,7 @@ router.get("/",(req,res)=>{
 
 router.post("/",(req,res)=>{
     if(!req.session?.user?.id){
-        res.status(401).json({message:"login first jabroni"})
+        res.status(401).json({message:"Please login"})
     } else {
 
         db.Comment.create({
@@ -34,7 +34,7 @@ router.post("/",(req,res)=>{
         }).catch(err=>{
             console.log(err)
             res.status(500).json({
-                message:"Oh no!",
+                message:"error",
                 error:err
             })
         })
@@ -52,7 +52,7 @@ router.get("/:id",(req,res)=>{
     }).catch(err=>{
         console.log(err)
         res.status(500).json({
-            message:"Oh no!",
+            message:"error",
             error:err
         })
     })
@@ -60,7 +60,7 @@ router.get("/:id",(req,res)=>{
 
 router.delete("/:id",(req,res)=>{
     if(!req.session?.user?.id){
-        res.status(401).json({message:"login first jabroni"})
+        res.status(401).json({message:"Must be logged in to scream"})
     } else {
        db.Comment.destroy({
            where:{
@@ -70,15 +70,15 @@ router.delete("/:id",(req,res)=>{
        }).then(delCommnet=>{
            if(delCommnet){
                res.json({
-                   message:"succesful delete!"
+                   message:"Deleted"
                });
             } else {
-                res.status(400).json({message:"no comment deleted, it either doesnt exist or you didnt create it"})
+                res.status(400).json({message:"error"})
             }
        }).catch(err=>{
         console.log(err)
         res.status(500).json({
-            message:"Oh no!",
+            message:"error",
             error:err
         })
     })

@@ -27,15 +27,15 @@ const seedMe= async ()=>{
         {
           
             title: "The Telephone",
-            description: "The future is here! A newfangled instument to trasmit speech of long distances is known as the telephone is here but not to stay.",
+            body: "The future is here! A newfangled instument to trasmit speech of long distances is known as the telephone is here but not to stay.",
             "Elon Musk's newest pipe dream: Donations needed": 10000000,
 
             UserId:1
           },
           {
-            name: "LimeScoots",
+            title: "LimeScoots",
             body: "What's better than a world of scooters? A new generation thriled with the rideshare scooter service LimeScoots has left drunken college students bruised and cooler than ever",
-            certification:"Certified cool",
+            certification:"cool",
             UserId:1
             
           }

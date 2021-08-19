@@ -1,13 +1,13 @@
-body {
-  background: deepskyblue;
+body{
+  background: url("https://i.postimg.cc/WbcXLtQj/ranger-4df6c1b6.png");
 }
 
+
 .blogPost {
-  background: white;
-  width:80vw;
-  margin:20px auto;
-  padding:10px;
-  border-radius:20px 0;
-  box-shadow: 5px 5px 20px 10px black;
-  min-height:20vh;
+  
+  background-color: lavender;
+  padding: 6px;
+  margin: auto 10px;
+
+
 }

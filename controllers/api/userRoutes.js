@@ -12,6 +12,7 @@ router.get('/',(req,res)=>{
                     model:db.Comment,
                     include:[db.User]
                 }]
+              
             }
         ]
     }).then(userData=>{
@@ -73,42 +74,13 @@ router.post("/login",(req,res)=>{
     }).catch(err=>{
         console.log(err);
         res.status(500).json({
-            message:"Uh oh!",
+            message:"Error",
             error:err
         })
     })
 })
 
-router.post("/follow",(req,res)=>{
-    if(!req.session?.user?.id){
-        res.status(401).json({
-            message:"login first you knuckelhead!"
-        })
-    } else {
-        db.User.findByPk(req.session.user.id).then(yourData=>{
-            yourData.addFollow(req.body.follow).then(done=>{
-                res.json({
-                    message:"followed!"
-                })
-            })
-        })
-    }
-})
-router.post("/unfollow",(req,res)=>{
-    if(!req.session?.user?.id){
-        res.status(401).json({
-            message:"login first you knuckelhead!"
-        })
-    } else {
-        db.User.findByPk(req.session.user.id).then(yourData=>{
-            yourData.removeFollow(req.body.unfollow).then(done=>{
-                res.json({
-                    message:"unfollowed!"
-                })
-            })
-        })
-    }
-})
+
 
 router.get("/session",(req,res)=>{
     res.json({
@@ -125,26 +97,17 @@ router.get('/:id',(req,res)=>{
                     model:db.Comment,
                     include:[db.User]
                 }]
-            },
-           db.Comment,
-           {
-               model:db.User,
-               as:"Followers"
-           },
-           {
-            model:db.User,
-            as:"Follows"
-        }
-        ]
-    }).then(userData=>{
+            }],
+      
+        }.then(userData=>{
         res.json(userData)
     }).catch(err=>{
         console.log(err);
         res.status(500).json({
-            message:"Uh oh!",
+            message:"Error",
             error:err
         })
     })
-})
+)});
 
 module.exports = router;

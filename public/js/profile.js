@@ -3,7 +3,9 @@ const newPostForm = document.querySelector("#newPostForm");
 newPostForm?.addEventListener("submit",e=>{
     e.preventDefault();
     const postObj ={
-        body: document.querySelector("#newPostBody").value
+        title: document.querySelector("#newPostTitle").value,
+        body: document.querySelector("#newPostBody").value,
+        
     }
     fetch("/api/posts",{
         method:"POST",
@@ -15,7 +17,7 @@ newPostForm?.addEventListener("submit",e=>{
         if(res.ok){
             location.reload();
         } else {
-            alert("oh no!!!!")
+            alert("error")
 
         }
     })

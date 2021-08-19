@@ -1,20 +1,35 @@
-<h1>Recent Posts!</h1>
+<h1>New Posts</h1>
 {{#if loggedInUser}}
-    <h3>Whats on your mind?</h3>
-    <form id="newPostForm">
-        <textarea id="newPostBody" id="" cols="30" rows="10">your thoughts...</textarea>
-        <button>Share thought!</button>
+    <h3 class="container">TECH NEWS</h3>
+    <form class="container" id="newPostForm">
+         <input class="container" id="newPostTitle" id="" cols="30" rows="10" placeholder="Title">
+        <br>
+       <textarea class="container" id="newPostBody" id="" cols="30" rows="10" placeholder="my dum thoughts"></textarea>
+    
+        <button>Scream your opinions to the void!</button>
     </form>
+     <hr   style="color:#919090; background-color:#919090; height:32px; ">
+    <br>
+    <br>
 {{/if}}
 {{#each posts}}
-    <div class="blogPost">
-        <h3><a href="/profile/{{User.id}}">{{User.username}}</a> on {{formattedDate}} at {{formattedTime}}</h3>
+    <div class="container" class="blogPost">
+       
+       <div style="background-color: rgb(214, 235, 241);" > <h3><a href="/profile/{{User.id}}">{{User.username}}</a> on {{formattedDate}} at {{formattedTime}}</h3></div>
+       <div style="background-color: lavender;">
+      <h2>{{title}}</h2>
         <p>{{body}}</p>
-      
-        <h4>Comments</h4>
+        <h5>{{releaseDate}}</h5>
+     <br>
+    
+       </div>
+       <br>
+    
+      <div style="background-color: rgb(214, 235, 241);">
+    <h4>Comments</h4> 
         {{#if Comments.length}}
         {{#each Comments}}
-            <p><strong><a href="/profile/{{User.id}}">{{User.username}}</a></strong> says:"{{body}}"</p> 
+            <p><strong><a href="/profile/{{User.id}}">{{User.username}}</a></strong> screams:"{{body}}"</p> 
         {{/each}}
         
         {{/if}}
@@ -23,14 +38,22 @@
         {{/unless}}
        {{#if ../loggedInUser}}
        <form class="addCommentForm">
-           <textarea class="commentBody" cols="30" rows="5">add your comment...</textarea>
+           <input class="commentBody" cols="30" rows="5" placeholder="SCREAM!">
            <input type="hidden" class="postid" value={{id}}>
-           <button>add comment</button>
-       </form>
+           <button>Scream your opinion</button>
+       
+       
        {{/if}}
-    </div>
+       </form>
+      </div>
 
+    </div>
+     <br>
+    <hr   style="color:#919090; background-color:#919090; height:32px; ">
+    
 {{/each}}
+   
+
 
 <script src="/js/profile.js"></script>
 <script src="/js/commentBtn.js"></script>
