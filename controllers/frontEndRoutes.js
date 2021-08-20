@@ -41,17 +41,17 @@ router.get("/profile/:id",(req,res)=>{
                 formattedTime:post.createdAt.toLocaleTimeString(),
             }
         })
-    //    const hbsUser = {
-    //        ...formatted,
-    //        Posts:postsWithDates,
-    //        loggedInUser:req.session.user,
-    //        isMyPage:req.params.id == req.session.user?.id,
+       const hbsUser = {
+           ...formatted,
+           Posts:postsWithDates,
+           loggedInUser:req.session.user,
+           isMyPage:req.params.id == req.session.user?.id,
            
      
-    //    }
+       }
 
-    //    console.log(hbsUser);
-    //     res.render("userpage",hbsUser)
+       console.log(hbsUser);
+        res.render("userpage",hbsUser)
     })
 })
 
