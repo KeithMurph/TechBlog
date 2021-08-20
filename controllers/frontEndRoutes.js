@@ -33,6 +33,8 @@ router.get("/profile/:id",(req,res)=>{
             
         }]
     }).then(user=>{
+
+  
         const formatted = user.get({plain:true})
         const postsWithDates = formatted.Posts.map(post=>{
             return {
