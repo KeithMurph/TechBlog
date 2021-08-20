@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "pwa-chrome",
+            "name": "https://keithstechblog.herokuapp.com/",
+            "request": "launch",
+            "url": "https://keithstechblog.herokuapp.com/"
+        }
+    ]
+}
