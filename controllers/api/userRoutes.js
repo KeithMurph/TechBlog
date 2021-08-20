@@ -4,7 +4,7 @@ const db = require('../../models');
 const bcrypt = require("bcrypt");
 
 router.get('/',(req,res)=>{
-    db.User.findByPk({
+    db.User.findAll({
         include:[
             {
                 model:db.Post,

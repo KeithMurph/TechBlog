@@ -10,6 +10,11 @@ const seedMe= async ()=>{
             email:"keith@keith.com",
             password:"password"
         },
+        {
+            username:"notKeith",
+            eamil:"email@email.com",
+            password:"password"
+        }
      
     ],{
         individualHooks:true
