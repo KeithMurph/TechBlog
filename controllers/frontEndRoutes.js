@@ -52,7 +52,7 @@ router.get("/profile/:id",(req,res)=>{
      
        }
 
-       console.log(hbsUser);
+       console.log('front end profile profile id');
         res.render("userpage",hbsUser)
     })
 })
