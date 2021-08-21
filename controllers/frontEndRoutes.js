@@ -57,13 +57,13 @@ router.get("/profile/:id",(req,res)=>{
     })
 })
 
-// router.get("/auth",(req,res)=>{
-//     if(req.session.user?.id){
-//         res.redirect("/")
-//     } else {
-//         res.render("auth",{loggedInUser:req.session.user});
-//     }
-// })
+router.get("/auth",(req,res)=>{
+    if(req.session.user?.id){
+        res.redirect("/")
+    } else {
+        res.render("auth",{loggedInUser:req.session.user});
+    }
+})
 
 router.get("/logout",(req,res)=>{
     req.session.destroy(()=>{
